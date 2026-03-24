@@ -1,0 +1,117 @@
+# ZonationR
+
+### Overview
+
+*ZonationR* is an R package that provides a seamless interface to the
+Zonation software, enabling users to execute spatial conservation
+prioritization workflows directly from R.
+
+The package is designed to:
+
+- **Support learning and teaching** by lowering the entry barrier for R
+  users exploring Zonation.  
+- **Streamline workflows** by automating input preparation, execution,
+  and post-processing.  
+- **Enable reproducibility** through transparent script-based workflows
+  that remains fully consistent with the original Zonation software.
+
+Traditionally, Zonation workflows require manual input preparation,
+running the software via GUI or command line, and separate
+post-processing in R or GIS. *ZonationR* simplifies this process by
+integrating all steps into R, enabling transparent and automated
+workflows.
+
+### Features
+
+- Automated generation of Zonation input files from R.  
+- Execution of Zonation 5 directly from R scripts.  
+- Post-processing of Zonation outputs, including raster maps and summary
+  tables.  
+- Support for reproducible teaching examples and research workflows.
+
+### Installation
+
+You can install the development version of *ZonationR* from
+**[GitHub](https://github.com/thiago-cav/ZonationR)** with:
+
+``` r
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("thiago-cav/ZonationR")
+```
+
+Load the package:
+
+``` r
+library(ZonationR)
+```
+
+### Getting help
+
+If you find a clear bug, please open an issue with a minimal
+reproducible example on
+**[GitHub](https://github.com/thiago-cav/ZonationR/issues)**.
+
+### Documentation
+
+For detailed documentation, tutorials, and example workflows, see the
+**[ZonationR website](https://thiago-cav.github.io/ZonationR/)**.
+
+# Package index
+
+## Preflight
+
+Initial checks such as verifying input files and confirming Zonation 5
+executable availability.
+
+- [`check_dir_writable()`](https://thiago-cav.github.io/ZonationR/reference/check_dir_writable.md)
+  : Check that an output directory is writable
+- [`check_raster_uniformity()`](https://thiago-cav.github.io/ZonationR/reference/check_raster_uniformity.md)
+  : Check raster uniformity
+- [`check_zonation_executable()`](https://thiago-cav.github.io/ZonationR/reference/check_zonation_executable.md)
+  : Check for Zonation 5 executable
+
+## Preprocessing
+
+Preparing input data and generating necessary configuration files.
+
+- [`command_file()`](https://thiago-cav.github.io/ZonationR/reference/command_file.md)
+  : Create a Zonation command file
+- [`feature_list()`](https://thiago-cav.github.io/ZonationR/reference/feature_list.md)
+  : Create a feature list from raster files
+- [`settings_file()`](https://thiago-cav.github.io/ZonationR/reference/settings_file.md)
+  : Create a settings file for a Zonation analysis
+
+## Execution
+
+Running the prioritization analysis directly from R.
+
+- [`run_command_file()`](https://thiago-cav.github.io/ZonationR/reference/run_command_file.md)
+  : Run a Zonation command file
+
+## Postprocessing
+
+Importing outputs for further analysis and interpretation.
+
+- [`coverage_distribution()`](https://thiago-cav.github.io/ZonationR/reference/coverage_distribution.md)
+  : Plot coverage distribution at a given rank
+- [`feature_curves()`](https://thiago-cav.github.io/ZonationR/reference/feature_curves.md)
+  : Plot feature performance curves
+- [`priority_map()`](https://thiago-cav.github.io/ZonationR/reference/priority_map.md)
+  : Plot priority ranking maps
+- [`rank_similarity()`](https://thiago-cav.github.io/ZonationR/reference/rank_similarity.md)
+  : Calculate similarity between Zonation rank maps
+- [`summary_curves()`](https://thiago-cav.github.io/ZonationR/reference/summary_curves.md)
+  : Plot summary performance curves
+
+# Articles
+
+### All vignettes
+
+- [Working with variants in
+  ZonationR](https://thiago-cav.github.io/ZonationR/articles/variants-workflow.md):
+- [Why spatial conservation
+  prioritization?](https://thiago-cav.github.io/ZonationR/articles/why_spatial_prioritization.md):
+- [Exploring Zonation
+  outputs](https://thiago-cav.github.io/ZonationR/articles/zonation-outputs.md):
+- [Getting started with
+  ZonationR](https://thiago-cav.github.io/ZonationR/articles/ZonationR.md):
