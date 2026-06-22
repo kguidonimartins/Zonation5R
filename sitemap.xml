@@ -2,6 +2,7 @@
 <url><loc>https://thiago-cav.github.io/ZonationR/404.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/LICENSE.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/articles/ZonationR.html</loc></url>
+<url><loc>https://thiago-cav.github.io/ZonationR/articles/ZonationR_flags.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/articles/index.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/articles/variants-workflow.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/articles/why_spatial_prioritization.html</loc></url>
@@ -13,9 +14,11 @@
 <url><loc>https://thiago-cav.github.io/ZonationR/reference/check_raster_uniformity.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/reference/check_zonation_executable.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/reference/command_file.html</loc></url>
+<url><loc>https://thiago-cav.github.io/ZonationR/reference/cost_summary.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/reference/coverage_distribution.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/reference/feature_curves.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/reference/feature_list.html</loc></url>
+<url><loc>https://thiago-cav.github.io/ZonationR/reference/feature_representation.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/reference/index.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/reference/priority_map.html</loc></url>
 <url><loc>https://thiago-cav.github.io/ZonationR/reference/rank_similarity.html</loc></url>

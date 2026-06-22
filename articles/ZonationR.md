@@ -13,21 +13,14 @@ This vignette provides a brief introduction to *ZonationR*. Users will:
 
 ### Setup
 
-#### Installation
-
-You can install the development version of *ZonationR* from
-[GitHub](https://github.com/thiago-cav/ZonationR) with:
-
 ``` r
-if (!require(devtools)) install.packages("devtools")
-devtools::install_github("thiago-cav/ZonationR")
-```
 
-#### Libraries
+# Install the Zonation5RData package from GitHub:
+pak::pak("thiago-cav/Zonation5RData")
 
-``` r
 # Load necessary libraries
 library(ZonationR)
+library(Zonation5RData)
 ```
 
 ### Before you begin
@@ -55,19 +48,23 @@ To install the Zonation 5 software on your computer.
 
 ### Prepare input data
 
-First, we copy the example biodiversity data provided with the package
-into a local directory. These raster layers will be used as features in
-the Zonation analysis.
+For this example, we use the
+[Zonation5RData](https://github.com/thiago-cav/Zonation5RData) package,
+which provides GeoTIFF layers for workflows with Zonation and
+*ZonationR*. To use the biodiversity layers in the **RStudio project**,
+we first create a folder and then copy the raster files from the
+package.
 
 ``` r
-#----------------------------------------------------
+
 # Create a folder for biodiversity input data
-#----------------------------------------------------
 dir.create("biodiversity", showWarnings = FALSE)
 
-extdata_path <- system.file("extdata", "biodiversity", package = "ZonationR")
-file.copy(list.files(extdata_path, full.names = TRUE),
-          "biodiversity", overwrite = TRUE)
+# Get the paths to biodiversity rasters included in the package
+files <- zonation5rdata_list("biodiversity", full.names = TRUE)
+
+# Copy the raster files to the local biodiversity folder
+file.copy(files, "biodiversity", overwrite = TRUE)
 ```
 
 ### Preflight checks
@@ -79,6 +76,7 @@ find the Zonation 5 executable on your computer. The installation path
 will be used later when creating the Zonation command file.
 
 ``` r
+
 # Run one preflight check
 z_check <- check_zonation_executable()
 
@@ -95,9 +93,10 @@ to verify that your layers are harmonized. You can also use
 to ensure that your working directory is writable.
 
 ``` r
+
 # Run the other preflight checks
-raster_check <- check_raster_uniformity("biodiversity")
-directory_check <- check_dir_writable(".")
+check_raster_uniformity("biodiversity")
+check_dir_writable(".")
 ```
 
 ### Zonation input files
@@ -107,6 +106,7 @@ The `zonation_path` argument must point to the directory where Zonation
 5 is installed on your system.
 
 ``` r
+
 # Create feature list file
 feature_list(spp_file_dir = "biodiversity")
 
@@ -122,6 +122,7 @@ command_file(zonation_path = "C:/Program Files (x86)/Zonation5")
 Finally, we run the Zonation 5 analysis.
 
 ``` r
+
 # Run the Zonation 5 analysis
 run_command_file(".")
 ```

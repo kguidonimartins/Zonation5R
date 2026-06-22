@@ -73,7 +73,9 @@ provided, also saves the plot as PNG.
 ## See also
 
 Other postprocessing:
+[`cost_summary()`](https://thiago-cav.github.io/ZonationR/reference/cost_summary.md),
 [`coverage_distribution()`](https://thiago-cav.github.io/ZonationR/reference/coverage_distribution.md),
+[`feature_representation()`](https://thiago-cav.github.io/ZonationR/reference/feature_representation.md),
 [`priority_map()`](https://thiago-cav.github.io/ZonationR/reference/priority_map.md),
 [`rank_similarity()`](https://thiago-cav.github.io/ZonationR/reference/rank_similarity.md),
 [`summary_curves()`](https://thiago-cav.github.io/ZonationR/reference/summary_curves.md)
@@ -81,14 +83,35 @@ Other postprocessing:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Plot gray lines with default transparency and no legend
-feature_curves("01_baseline")
+# \donttest{
+withr::with_tempdir({
 
-# Plot using viridis palette with legend
-feature_curves("01_baseline", palette = "viridis", show_legend = TRUE)
+  data_path <- system.file(
+    "extdata",
+    package = "ZonationR"
+  )
 
-# Plot using custom blue color with more transparency
-feature_curves("01_baseline", palette = "blue", alpha = 0.2)
-} # }
+  dir.create("output")
+
+  file.copy(
+    file.path(data_path, "feature_curves.csv"),
+    "output/feature_curves.csv",
+    overwrite = TRUE
+  )
+
+  file.copy(
+    file.path(data_path, "features_info.csv"),
+    "output/features_info.csv",
+    overwrite = TRUE
+  )
+
+  p1 <- feature_curves(
+    dir = ".",
+    output_folder_name = "output"
+  )
+
+  print(p1)
+})
+
+# }
 ```

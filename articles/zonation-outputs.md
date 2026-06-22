@@ -8,36 +8,54 @@ Specifically, users will:
 2.  Inspect performance curves.
 3.  Assess the distribution of feature coverage.
 
-Here, we use the baseline variant output folder from the vignette
-[Variants
-worflow](https://thiago-cav.github.io/ZonationR/articles/variants-workflow.md)
-to illustrate some of the post-processing functions. You can either use
-the output folder data provided by the package, as shown below, or, if
-you are following the multiple variants tutorial, you can use any output
-folder from there.
-
 ### Setup
 
 #### Installation
 
 ``` r
-# Install these packages if not already installed
-if (!require(ggplot2)) install.packages("ggplot2")
-if (!require(patchwork)) install.packages("patchwork")
-if (!require(here)) install.packages("here")
+
+# Install required packages if not already installed
+if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  install.packages("ggplot2")
+}
+
+if (!requireNamespace("patchwork", quietly = TRUE)) {
+  install.packages("patchwork")
+}
 ```
 
-#### Libraries and example data
+#### Libraries
 
 ``` r
+
 # Load necessary libraries
 library(ZonationR)
+library(Zonation5RData)
 library(ggplot2)
 library(patchwork)
-library(here)
+```
 
-# Path to example baseline variant
-baseline_folder <- here::here("inst", "extdata", "01_baseline")
+### Prepare input data
+
+Here, we use the baseline variant output folder from the vignette
+[Variants
+worflow](https://thiago-cav.github.io/ZonationR/articles/variants-workflow.md)
+to illustrate some of the post-processing functions. You can either use
+the output folder data provided by the
+[Zonation5RData](https://github.com/thiago-cav/Zonation5RData) package,
+as shown below, or, if you are following the multiple variants tutorial,
+you can use any output folder from there.
+
+``` r
+
+# Create a local copy of the example baseline folder
+src <- zonation5rdata_path("01_baseline")
+
+# Copy the whole directory, preserving the structure
+file.copy(src, ".", recursive = TRUE, overwrite = TRUE)
+
+# Define a variable for the baseline folder
+baseline_folder <- "01_baseline"
 ```
 
 ### Priority map
@@ -57,12 +75,13 @@ conservation effectiveness. We can use the
 function to visualize the ranking values across the landscape:
 
 ``` r
+
 p1 <- priority_map(baseline_folder)
 
 print(p1)
 ```
 
-![](zonation-outputs_files/figure-html/priority-map1-1.png)
+![](img/priority_map1.png)
 
 In addition to visualizing the continuous priority values, we can also
 adjust the map to make important areas stand out more clearly. The
@@ -74,6 +93,7 @@ and we can define custom breaks and labels to make it easier to see
 which areas have higher or lower priority.
 
 ``` r
+
 breaks <- c(0, 0.1, 0.5, 0.9, 1)
 labels <- c("very low", "low", "medium", "very high")
 p2 <- priority_map(baseline_folder, classify = TRUE,
@@ -81,7 +101,7 @@ p2 <- priority_map(baseline_folder, classify = TRUE,
 print(p2)
 ```
 
-![](zonation-outputs_files/figure-html/priority-map2-1.png)
+![](img/priority_map2.png)
 
 The visualization functions in *ZonationR* return `ggplot2` objects,
 which means that users can further customize the plots using the
@@ -89,11 +109,12 @@ which means that users can further customize the plots using the
 to the map:
 
 ``` r
+
 p2 <- p2 + scale_fill_viridis_d() + labs(fill = "rank")
 print(p2)
 ```
 
-![](zonation-outputs_files/figure-html/priority-map3-1.png)
+![](img/priority_map3.png)
 
 ### Performance curves
 
@@ -109,6 +130,7 @@ solution. It allows us to explore key metrics such as:
 - **min** - performance of the worst-performing species
 
 ``` r
+
 p3 <- summary_curves(baseline_folder, metrics = c("mean", "max", "min")) +
   ggtitle("Summary Curves") +
   theme(plot.title = element_text(hjust = 0.5))
@@ -116,20 +138,21 @@ p3 <- summary_curves(baseline_folder, metrics = c("mean", "max", "min")) +
 print(p3)
 ```
 
-![](zonation-outputs_files/figure-html/curves1-1.png)
+![](img/summary_curves.png)
 
 We can also visualize additional metrics from the summary curves file
 using separate panels (facets). The `facet` argument should be set to
 `TRUE` when plotting metrics that have different units or value ranges.
 
 ``` r
+
 p4 <- summary_curves(baseline_folder,
                      metrics = c("remaining_area", "mean"),
                      facet = TRUE)
 print(p4)
 ```
 
-![](zonation-outputs_files/figure-html/curves2-1.png)
+![](img/summary_curves_facet.png)
 
 Besides looking at overall performance with
 [`summary_curves()`](https://thiago-cav.github.io/ZonationR/reference/summary_curves.md),
@@ -139,6 +162,7 @@ the priority ranking, which can be explored using the
 function:
 
 ``` r
+
 p5 <- feature_curves(baseline_folder) +
   ggtitle("Feature curves") +
   theme(plot.title = element_text(hjust = 0.5))
@@ -146,7 +170,7 @@ p5 <- feature_curves(baseline_folder) +
 print(p5)
 ```
 
-![](zonation-outputs_files/figure-html/curves3-1.png)
+![](img/feature_curves.png)
 
 As with
 [`priority_map()`](https://thiago-cav.github.io/ZonationR/reference/priority_map.md),
@@ -159,12 +183,13 @@ For example, we can add a vertical line to highlight the top 10%
 (`rank = 0.9`) priority cells.
 
 ``` r
+
 p5 <- p5 + geom_vline(xintercept = 0.9, linetype = "dashed", color = "red")
 
 print(p5)
 ```
 
-![](zonation-outputs_files/figure-html/curves4-1.png)
+![](img/feature_curves_vline.png)
 
 > The vertical line at 0.9 represents the top 10% priority areas.
 > Intersection with the curves shows the proportion of each feature
@@ -177,6 +202,7 @@ function to plot a classified map showing only the top 10% priority
 areas, alongside the corresponding feature curves.
 
 ``` r
+
 # Define the threshold for the top 10% priority cells
 threshold <- 0.90
 
@@ -203,7 +229,7 @@ p1_combined <- top10_map + p5
 print(p1_combined)
 ```
 
-![](zonation-outputs_files/figure-html/priority-map4-1.png)
+![](img/top10_map_feature_curves.png)
 
 By combining the classified map and the feature curves side by side, we
 can see which areas are top-priority and how well each species is
@@ -224,6 +250,7 @@ means that 30 species have between 10% and 20% of their range included
 in the selected priority fraction.
 
 ``` r
+
 p6 <- coverage_distribution(baseline_folder, target_rank = 0.9) +
   ggtitle("Coverage at the top 10%") +
   theme(plot.title = element_text(hjust = 0.5))
@@ -231,18 +258,19 @@ p6 <- coverage_distribution(baseline_folder, target_rank = 0.9) +
 print(p6)
 ```
 
-![](zonation-outputs_files/figure-html/coverage-1.png)
+![](img/coverage_distribution.png)
 
 > An overview of Zonation results can be created by combining maps and
 > other outputs.
 
 ``` r
+
 p2_combined <- top10_map + p5 / p6
 
 print(p2_combined)
 ```
 
-![](zonation-outputs_files/figure-html/combined1-1.png)
+![](img/combined_plot.png)
 
 ### Key takeaways
 

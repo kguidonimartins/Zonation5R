@@ -70,19 +70,41 @@ plotted against priority rank.
 ## See also
 
 Other postprocessing:
+[`cost_summary()`](https://thiago-cav.github.io/ZonationR/reference/cost_summary.md),
 [`coverage_distribution()`](https://thiago-cav.github.io/ZonationR/reference/coverage_distribution.md),
 [`feature_curves()`](https://thiago-cav.github.io/ZonationR/reference/feature_curves.md),
+[`feature_representation()`](https://thiago-cav.github.io/ZonationR/reference/feature_representation.md),
 [`priority_map()`](https://thiago-cav.github.io/ZonationR/reference/priority_map.md),
 [`rank_similarity()`](https://thiago-cav.github.io/ZonationR/reference/rank_similarity.md)
 
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Plot mean and max metrics overlaid
-summary_curves("01_baseline", metrics = c("mean", "max"))
+# \donttest{
+withr::with_tempdir({
 
-# Plot area and cost metrics in separate panels
-summary_curves("01_baseline", metrics = c("remaining_area", "remaining_cost"), facet = TRUE)
-} # }
+  data_path <- system.file(
+    "extdata",
+    package = "ZonationR"
+  )
+
+  dir.create("output")
+
+  file.copy(
+    file.path(data_path, "summary_curves.csv"),
+    "output/summary_curves.csv",
+    overwrite = TRUE
+  )
+
+  p1 <- summary_curves(
+    dir = ".",
+    output_folder_name = "output",
+    metrics = c("mean", "max")
+  )
+
+  print(p1)
+
+})
+
+# }
 ```

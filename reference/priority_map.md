@@ -84,29 +84,61 @@ A `ggplot` object representing the priority map.
 ## See also
 
 Other postprocessing:
+[`cost_summary()`](https://thiago-cav.github.io/ZonationR/reference/cost_summary.md),
 [`coverage_distribution()`](https://thiago-cav.github.io/ZonationR/reference/coverage_distribution.md),
 [`feature_curves()`](https://thiago-cav.github.io/ZonationR/reference/feature_curves.md),
+[`feature_representation()`](https://thiago-cav.github.io/ZonationR/reference/feature_representation.md),
 [`rank_similarity()`](https://thiago-cav.github.io/ZonationR/reference/rank_similarity.md),
 [`summary_curves()`](https://thiago-cav.github.io/ZonationR/reference/summary_curves.md)
 
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-p1 <- priority_map(dir = "01_baseline", classify = FALSE)
-print(p1)
+# \donttest{
+withr::with_tempdir({
 
-breaks <- c(0, 0.25, 0.5, 0.75, 1)
-labels <- c("Low", "Medium", "High", "Very High")
-p2 <- priority_map(dir = "01_baseline", classify = TRUE,
-                   breaks = breaks, labels = labels)
-print(p2)
+  data_path <- system.file(
+    "extdata",
+    package = "ZonationR"
+  )
 
-# Save a continuous map
-priority_map(
-  dir = "01_baseline",
-  classify = FALSE,
-  save_path = "plots/baseline_map.png")
-} # }
+  dir.create("output")
+
+  # copy example rankmap
+  file.copy(
+    file.path(data_path, "rankmap.tif"),
+    "output/rankmap.tif",
+    overwrite = TRUE
+  )
+
+  # ---- continuous map ----
+  p1 <- priority_map(
+    dir = ".",
+    output_folder_name = "output",
+    classify = FALSE
+  )
+
+  print(p1)
+
+  # ---- classified map ----
+  breaks <- c(0, 0.25, 0.5, 0.75, 1)
+  labels <- c("Low", "Medium", "High", "Very High")
+
+  p2 <- priority_map(
+    dir = ".",
+    output_folder_name = "output",
+    classify = TRUE,
+    breaks = breaks,
+    labels = labels
+  )
+
+  print(p2)
+
+})
+#> Scale on map varies by more than 10%, scale bar may be inaccurate
+
+#> Scale on map varies by more than 10%, scale bar may be inaccurate
+
+# }
 
 ```

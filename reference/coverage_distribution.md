@@ -62,7 +62,9 @@ the specified priority rank.
 ## See also
 
 Other postprocessing:
+[`cost_summary()`](https://thiago-cav.github.io/ZonationR/reference/cost_summary.md),
 [`feature_curves()`](https://thiago-cav.github.io/ZonationR/reference/feature_curves.md),
+[`feature_representation()`](https://thiago-cav.github.io/ZonationR/reference/feature_representation.md),
 [`priority_map()`](https://thiago-cav.github.io/ZonationR/reference/priority_map.md),
 [`rank_similarity()`](https://thiago-cav.github.io/ZonationR/reference/rank_similarity.md),
 [`summary_curves()`](https://thiago-cav.github.io/ZonationR/reference/summary_curves.md)
@@ -70,17 +72,32 @@ Other postprocessing:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Plot coverage histogram at rank 0.9
-p <- coverage_distribution("01_baseline", target_rank = 0.9)
-p + ggplot2::theme_classic()
+# \donttest{
+withr::with_tempdir({
 
-# Save as PNG
-coverage_distribution("01_baseline", target_rank = 0.9,
-                      save_path = "coverage_hist.png")
+  data_path <- system.file(
+    "extdata",
+    "feature_curves.csv",
+    package = "ZonationR"
+  )
 
-# Save as PDF
-coverage_distribution("01_baseline", target_rank = 0.9,
-                      save_path = "coverage_hist.pdf")
-} # }
+  dir.create("output")
+
+  file.copy(
+    data_path,
+    file.path("output", "feature_curves.csv"),
+    overwrite = TRUE
+  )
+
+  p <- coverage_distribution(
+    dir = ".",
+    output_folder_name = "output",
+    target_rank = 0.9
+  )
+
+  print(p)
+
+})
+
+# }
 ```
